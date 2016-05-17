@@ -15,20 +15,16 @@ void write (const char path[], const char dest[]);
 HANDLE open(const char path[]);
 double run(const char path[]);
 string compare_sol(const char in1[], const char in2[]);
+bool config_exists();
+void getConfig(string &exe, string &input, string &output);
 int main()
 {
     string path = getexepath()+"\\test";
     cout << path << endl;
 
     string input, output, exe;
-    cout << ".exe file: ";
-    cin >> exe;
-    cout << "Execution time: ";
-    cin >> time;
-    cout << "Input file: ";
-    cin >> input;
-    cout << "Output file: ";
-    cin >> output;
+    getConfig(exe, input, output);
+
     //open(exe.c_str());
     vector<string> files = get_files(path);
     int testai=0;
@@ -59,6 +55,31 @@ int main()
     cout << ac << "/" << testai << " Tests passed" << endl;
     system("pause");
     return 0;
+}
+void getConfig(string &exe, string &input, string &output)
+{
+    if (config_exists()) {
+    ifstream in("conf.txt");
+    in >> exe >> time >> input >> output;
+    in.close();
+    } else {
+    cout << "You can use config file 'conf.txt'" << endl;
+    cout << ".exe file: ";
+    cin >> exe;
+    cout << "Execution time: ";
+    cin >> time;
+    cout << "Input file: ";
+    cin >> input;
+    cout << "Output file: ";
+    cin >> output;
+    }
+}
+bool config_exists()
+{
+    ifstream in("conf.txt");
+    bool t = in.good();
+    in.close();
+    return t;
 }
 string compare_sol(const char in1[], const char in2[])
 {
