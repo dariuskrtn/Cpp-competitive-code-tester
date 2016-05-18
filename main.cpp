@@ -17,6 +17,7 @@ double run(const char path[]);
 string compare_sol(const char in1[], const char in2[]);
 bool config_exists();
 void getConfig(string &exe, string &input, string &output);
+void create_config(string exe, string input, string output);
 int main()
 {
     string path = getexepath()+"\\test";
@@ -72,6 +73,8 @@ void getConfig(string &exe, string &input, string &output)
     cin >> input;
     cout << "Output file: ";
     cin >> output;
+    cout << "Config created automatically 'conf.txt'" << endl;
+    create_config(exe, input, output);
     }
 }
 bool config_exists()
@@ -80,6 +83,15 @@ bool config_exists()
     bool t = in.good();
     in.close();
     return t;
+}
+void create_config(string exe, string input, string output)
+{
+    ofstream out("conf.txt");
+    out << exe << endl;
+    out << time << endl;
+    out << input << endl;
+    out << output << endl;
+    out.close();
 }
 string compare_sol(const char in1[], const char in2[])
 {
